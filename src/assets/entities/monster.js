@@ -1,9 +1,8 @@
 import Entity from "./entity.js";
-import * as constants from  '../util/constants.js';
-export default class Player extends Entity {
+export default class Monster extends Entity {
 	constructor(scene, x, y) {
-		super(scene,x,y,'player');
-		this.speed = constants.BASE_PLAYER_SPEED;
+		super(scene,x,y,'monster');
+		this.speed = 200;
 	}
 	preload(){}
 

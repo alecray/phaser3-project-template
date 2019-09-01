@@ -19,7 +19,9 @@ export default class Boot extends Phaser.Scene {
 		let path = './src/assets/'
 		this.load.image('grassTile', path + 'img/env/grassTile.png');
 		this.load.image('player', path + 'img/player/player.png');
+		this.load.image('monster', path + 'img/monsters/monster.png');
 		this.load.image('click', path + 'img/control/click.png');
+
 	}
 
 	loadingBar(){

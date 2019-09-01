@@ -2,6 +2,7 @@ import * as constants from  '../util/constants.js';
 import Tile from '../entities/tile.js';
 import TileGrass from '../entities/tileGrass.js';
 import Player from '../entities/player.js';
+import Monster from '../entities/monster.js';
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -22,12 +23,15 @@ export default class Game extends Phaser.Scene {
   create(){
     console.log('game');
     this.initControls();
-    this.mainTown();
+    this.generateGrassTiles(this.game);
+    this.spawnPlayer();
+    this.spawnMonster();
     this.initGraphics(0);
   }
 
   update(){
     this.checkPlayerMoving();
+    this.checkMonsterRanges(); // see if any monsters are in range, and set them to move towards player
   }
 
   initControls(){
@@ -44,12 +48,6 @@ export default class Game extends Phaser.Scene {
     //this.reticle.setTintFill(0xFF0000);
   }
 
-  mainTown(){
-    this.generateGrassTiles();
-    this.spawnPlayer();
-
-  }
-
   checkPlayerMoving(){
     //if(this.reticle.visible) 
     let distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.reticle.x, this.reticle.y);
@@ -60,6 +58,11 @@ export default class Game extends Phaser.Scene {
             this.reticle.setVisible(false);
         }
     }
+  }
+
+  setMoveToPos(x,y){
+    this.reticle.setVisible(true);
+    this.reticle.setPosition(x,y);
   }
 
   generateGrassTiles(){
@@ -78,8 +81,18 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.startFollow(this.player);
   }
 
-  setMoveToPos(x,y){
-    this.reticle.setVisible(true);
-    this.reticle.setPosition(x,y);
+  spawnMonster(){
+    this.monster = new Monster(this,500,500);
+  }
+
+  checkMonsterRanges(){
+    //if(this.reticle.visible) 
+    let distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.monster.x, this.monster.y),
+        tolerance = this.player.speed/20;
+    if (distance <tolerance ){
+        this.monster.body.reset(this.monster.x, this.monster.y);
+    } else if(distance < constants.MONSTER_DISTANCE) {
+        this.physics.moveToObject(this.monster, this.player, this.player.speed/2);
+    }
   }
 }
