@@ -1,0 +1,20 @@
+Basic Game Concept:
+- There is a main center town where the player can buy/sell items, upgrades, etc
+- some way to get to randomly generated dungeons
+    - portals?
+    - caves?
+
+- classes:
+   - wizard
+   - warrior
+   - ranger
+
+- monsters:
+   - goblin
+   - demon
+   - cave slime
+
+- weapons:
+  - sword
+  - bow
+  - staff
